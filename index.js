@@ -1,15 +1,17 @@
 
-//making code reusable - receives a callback function as an argument
-const getRequestData = (cBack) => {
-
     //remote json file
     const url = `https://jsonplaceholder.typicode.com/todos/`;
     //local json file
     // install npm install -g json-server
     // terminal>>> json-server -p 4000 (port since 3000 used ) -w  ./data/usersdb.json (path to watch the file)
     const localurl = `http://localhost:4000/users`;
-    const request = new XMLHttpRequest();
+ 
 
+
+//making code reusable - (receive resouces as url ,receives a callback function as an argument)
+const getRequestData = (resources, cBack) => {
+    const request = new XMLHttpRequest();
+ 
     // request.addEventListener('readystatechange', () => {
     //      //console.log(request, request.readyState);
     //     if (request.readyState === 4 && request.status === 200) {
@@ -18,18 +20,13 @@ const getRequestData = (cBack) => {
     // })
 
 
-
-
     //xhr method taking parameters (method,url,async, user, password)
     //syntax open(type, API end point, default-true, null, null)
     //open request
-    request.open('GET', localurl);
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
+    request.open('GET', resources);
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     //set the response type "" - text - arrayBuffer -blob - document - json
     request.responseType = "text";
-
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     request.onload = () => {
 
@@ -46,7 +43,9 @@ const getRequestData = (cBack) => {
                 //console.log(request.responseURL);
 
                 //changed by callback>> console.log(request.responseText);
-                cBack(undefined, request.responseText);
+                //convert response Text data to a JSon Object
+                const dataOb = JSON.parse(request.responseText);
+                cBack(undefined, dataOb);
                 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
             } else {
@@ -63,7 +62,7 @@ const getRequestData = (cBack) => {
 // Usig call back 
 //- passing a function as a parameter which will receive parameters(optional) from the main function
 //- inside the main function receive the callback function as an argument  
-getRequestData((err, data) => {
+getRequestData(localurl,(err, data) => {
     if (err) {
         console.log(err);
     } else {
