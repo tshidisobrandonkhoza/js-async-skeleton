@@ -10,6 +10,8 @@
 
 //making code reusable - (receive resouces as url ,receives a callback function as an argument)
 const getRequestData = (resources, cBack) => {
+
+    //XHR Object
     const request = new XMLHttpRequest();
  
     // request.addEventListener('readystatechange', () => {
